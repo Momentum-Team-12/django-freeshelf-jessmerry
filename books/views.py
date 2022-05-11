@@ -21,3 +21,20 @@ def books_by_category(request, slug):
     books = Book.objects.filter(category=category)
 
     return render(request, 'books/category.html', {'books': books, 'category': category})
+
+
+def add_favorite(request,pk):
+    book=get_object_or_404(Book, pk=pk)
+    user=request.user
+    form = FavoriteForm(data=request.POST)
+    if form.is_valid():
+        favorite = form.save(commit=False)
+        favorite.book=book
+        favorite.user=user
+        favorite.save()
+        return redirect(to='book_detail', pk=pk)
+
+
+def books_by_favorite(request):
+    favorites=Favorite.objects.filter(user=request.user)
+    return render(request, 'books/books_by_favorite.html', {"favorites":favorites})
