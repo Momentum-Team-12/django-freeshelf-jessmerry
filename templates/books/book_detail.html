@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>Read a Book</h1>
+<a href="{% url 'book_detail' %}">Book Detail</a>
+
+<div>
+    <form action="{% url 'book_detail' %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div>
+            <button type="submit">Book Detail</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
